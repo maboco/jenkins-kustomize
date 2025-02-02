@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/instance: jenkins-dev
+    app.kubernetes.io/version: "2.495"
+  name: jenkins-dev

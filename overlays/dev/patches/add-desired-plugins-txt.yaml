@@ -1,0 +1,13 @@
+- op: add 
+  path: "/spec/template/spec/initContainers/0/volumeMounts/-"
+  value: 
+    name: desired-plugins
+    mountPath: /tmp/jenkins/desired-plugins.txt
+    subPath: desired-plugins.txt
+
+- op: add
+  path: "/spec/template/spec/volumes/-"
+  value:
+    name: desired-plugins
+    configMap:
+      name: desired-plugins

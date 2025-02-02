@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+  
+labels:
+  - pairs:
+      app.kubernetes.io/instance: "jenkins-pro"
+      app.kubernetes.io/version: "2.479.3" 
+    includeSelectors: true
+    includeTemplates: true
+
+namespace: jenkins-pro
+
+resources:
+  - ../../base
+  - namespace.yaml
+
+images:
+  - name: jenkins
+    newName: jenkins
+    newTag: 2.479.3-lts-jdk21

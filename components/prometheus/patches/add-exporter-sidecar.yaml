@@ -1,0 +1,29 @@
+- op: add
+  path: "/spec/template/spec/containers/-"
+  value:
+    name: prometheus-exporter
+    image: bitnami/jmx-exporter:latest
+    ports:
+      - containerPort: 9090
+        name: metrics
+    args:
+      - "9090"
+      - /tmp/jmx-config
+    resources:
+      limits:
+        cpu: "100m"
+        memory: "512Mi"
+      requests:
+        cpu: "50m"
+        memory: "256Mi"
+    volumeMounts:
+      - name: jmx-config
+        mountPath: /tmp/jmx-config
+        subPath: jmx-config.yaml
+
+- op: add
+  path: "/spec/template/spec/volumes/-"
+  value:
+    name: jmx-config
+    configMap:
+      name: jmx-config

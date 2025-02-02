@@ -1,0 +1,61 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    meta.kubernetes.io/created-by: kustomize
+    meta.kubernetes.io/documentation: https://www.jenkins.io/doc/book/installing/kubernetes
+    meta.kubernetes.io/team-owner: devops
+  labels:
+    app.kubernetes.io/component: ci-cd-tool
+    app.kubernetes.io/instance: jenkins-dev
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: jenkins-master
+    app.kubernetes.io/part-of: devops-tooling
+    app.kubernetes.io/version: "2.495"
+  name: jenkins
+  namespace: jenkins-dev
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods/log
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get

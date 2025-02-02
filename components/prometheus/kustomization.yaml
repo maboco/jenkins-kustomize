@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - svc.yaml
+  - route.yaml
+
+patches:
+  - target:
+      kind: Deployment
+    path: patches/add-exporter-sidecar.yaml
+  - target:
+      kind: Deployment
+    path: patches/add-java-opts.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: jmx-config
+    files:
+      - assets/jmx-config.yaml
+
+images:
+  - name:  bitnami/jmx-exporter
+    newName: bitnami/jmx-exporter
+    newTag: 1.1.0-debian-12-r3

@@ -1,0 +1,42 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+  
+labels:
+  - pairs:
+      app.kubernetes.io/instance: "jenkins-dev"
+      app.kubernetes.io/version: "2.495" 
+    includeSelectors: true
+    includeTemplates: true
+
+namespace: jenkins-dev
+
+resources:
+  - ../../base
+  - ns.yaml
+  - cm-envvars.yaml
+
+components:
+  - ../../components/prometheus
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: desired-plugins
+    files:
+      - plugins/desired-plugins.txt
+
+patches:
+  - target:
+      kind: Deployment
+      name: jenkins
+    path: patches/add-desired-plugins-txt.yaml
+  - target:
+      kind: Deployment
+      name: jenkins
+    path: patches/set-resources.yaml
+
+images:
+  - name: jenkins/jenkins
+    newName: jenkins/jenkins
+    newTag: 2.495-jdk21

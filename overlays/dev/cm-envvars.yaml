@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: envvars
+  
+data:
+  JENKINS_JAVA_OPTS: "-XX:InitialRAMPercentage=50.0 -XX:MaxRAMPercentage=50.0 -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Djava.util.logging.config.file=/tmp/logging.properties"

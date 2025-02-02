@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: jenkins
+  
+spec:
+  replicas: 1
+  selector: {}
+  template:
+    metadata: {}
+    spec:
+      serviceAccountName: jenkins
+      initContainers:
+        - name: plugin-management
+          image: jenkins/jenkins:lts
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
+          env:
+            - name: JENKINS_HOME
+              value: "/var/jenkins_home"
+            - name: CACHE_DIR
+              value: "/tmp/jenkins"
+          command: 
+            - "/bin/sh"
+          args:
+            - "-c"
+            - "jenkins-plugin-cli --plugin-file /tmp/jenkins/desired-plugins.txt -d /var/jenkins_home/plugins"
+          volumeMounts:
+            - name: jenkins-data
+              mountPath: /var/jenkins_home
+            - name: jenkins-plugins-data
+              mountPath: /var/jenkins_home/plugins
+            - name: logging-config
+              mountPath: /tmp/logging.properties
+              subPath: logging.properties
+            - name: jenkins-plugin-manager
+              mountPath: /tmp/jenkins
+      containers:
+        - name: jenkins
+          image: jenkins/jenkins:lts
+          env:
+            - name: JENKINS_HOME
+              value: "/var/jenkins_home"
+            - name: CACHE_DIR
+              value: "/tmp/jenkins"
+          resources: {}
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: jnlp
+              containerPort: 50000
+          livenessProbe:
+            httpGet:
+              path: "/login"
+              port: 8080
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: "/login"
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: jenkins-data
+              mountPath: /var/jenkins_home
+            - name: jenkins-plugins-data
+              mountPath: /var/jenkins_home/plugins
+            - name: logging-config
+              mountPath: /tmp/logging.properties
+              subPath: logging.properties
+            - name: jenkins-cache
+              mountPath: /tmp/jenkins
+            #- name: fonts-cache
+            #  mountPath: /usr/share/fonts
+          envFrom:
+            - configMapRef:
+                name: envvars
+      volumes:
+        - name: jenkins-data
+          emptyDir: {}
+        - name: jenkins-plugins-data
+          emptyDir: {}
+        - name: logging-config
+          configMap:
+            name: logging-config
+        - name: jenkins-plugin-manager
+          emptyDir: {}
+        - name: jenkins-cache
+          emptyDir: {}
+        #- name: fonts-cache
+        #  emptyDir: {}
