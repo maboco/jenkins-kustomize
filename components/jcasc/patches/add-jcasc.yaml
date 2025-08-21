@@ -1,0 +1,19 @@
+- op: add
+  path: "/spec/template/spec/volumes/-"
+  value:
+    name: jenkins-config
+    configMap:
+      name: jenkins-config
+
+- op: add
+  path: "/spec/template/spec/containers/0/volumeMounts/-"
+  value: 
+    name: jenkins-config
+    mountPath: /var/jenkins_home/casc_configs/jenkins-config.yaml
+    subPath: jenkins-config.yaml
+
+- op: add
+  path: "/spec/template/spec/containers/0/env/-"
+  value: 
+    name: "CASC_JENKINS_CONFIG"
+    value: "/var/jenkins_home/casc_configs/"
