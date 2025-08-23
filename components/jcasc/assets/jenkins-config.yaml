@@ -7,3 +7,28 @@ jenkins:
       users:
         - id: "admin"
           password: "admin"
+
+  clouds:
+  - kubernetes:
+      containerCap: 10
+      containerCapStr: "10"
+      jenkinsUrl: "http://jenkins.jenkins-dev.svc.cluster.local:8080"
+      name: "k3s"
+      namespace: "jenkins-dev"
+      podLabels:
+      - key: "app.kubernetes.io/name"
+        value: "jenkins-slave"
+      - key: "app.kubernetes.io/component"
+        value: "ci-cd-tool"
+      - key: "app.kubernetes.io/part-of"
+        value: "devops-tooling"
+      - key: "meta.kubernetes.io/team-owner"
+        value: "devops"
+      skipTlsVerify: true
+      templates:
+      - id: "4438b943-e637-4cc1-9d25-72d940a0c12e"
+        label: "kubeagent"
+        name: "agent"
+        namespace: "jenkins-dev"
+        nodeUsageMode: "NORMAL"
+        yamlMergeStrategy: "override"

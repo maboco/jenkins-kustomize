@@ -1,1 +1,5 @@
-configuration-as-code:1985.vdda_32d0c4ea_b_
+configuration-as-code:latest
+instance-identity:latest
+kubernetes:latest
+workflow-aggregator:latest
+docker-plugin:latest
