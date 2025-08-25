@@ -1,2 +1,5 @@
-kubernetes:4306.vc91e951ea_eb_d
-git:5.7.0
+configuration-as-code:latest
+instance-identity:latest
+kubernetes:latest
+workflow-aggregator:latest
+docker-plugin:latest

@@ -3,7 +3,7 @@ kind: Component
 
 resources:
   - svc.yaml
-  - route.yaml
+  #- route.yaml
 
 patches:
   - target:

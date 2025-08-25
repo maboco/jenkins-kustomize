@@ -26,7 +26,7 @@ configMapGenerator:
 resources:
   - deploy.yaml
   - svc.yaml
-  - route.yaml
+  - ingress.yaml
   - sa.yaml
   - rb.yaml
   - role.yaml

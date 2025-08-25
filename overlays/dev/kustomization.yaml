@@ -4,7 +4,7 @@ kind: Kustomization
 labels:
   - pairs:
       app.kubernetes.io/instance: "jenkins-dev"
-      app.kubernetes.io/version: "2.495" 
+      app.kubernetes.io/version: "2.516.2-lts-jdk21" 
     includeSelectors: true
     includeTemplates: true
 
@@ -17,6 +17,7 @@ resources:
 
 components:
   - ../../components/prometheus
+  - ../../components/jcasc
 
 generatorOptions:
   disableNameSuffixHash: true
@@ -39,4 +40,4 @@ patches:
 images:
   - name: jenkins/jenkins
     newName: jenkins/jenkins
-    newTag: 2.495-jdk21
+    newTag: 2.516.2-lts-jdk21
