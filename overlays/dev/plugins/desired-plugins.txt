@@ -3,3 +3,4 @@ instance-identity:latest
 kubernetes:latest
 workflow-aggregator:latest
 docker-plugin:latest
+git:latest
